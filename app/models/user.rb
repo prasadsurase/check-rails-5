@@ -1,5 +1,8 @@
 class User
   include Mongoid::Document
+  include Mongoid::Timestamps
+  include Mongoid::History::Trackable
+  include Mongoid::Attributes::Dynamic
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -36,4 +39,6 @@ class User
   #
   field :name, type: String
   field :points, type: Integer, default: 0
+
+  track_history on: [:name, :points], track_create: false, track_update: true, track_destroy: true
 end
